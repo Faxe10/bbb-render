@@ -70,8 +70,14 @@ class Downloader:
         self._get('slides_new.xml')
 
         self._get('video/webcams.webm')
-        self._get('deskshare/deskshare.webm')
-
+        #self._get('deskshare/deskshare.webm')
+        try:
+            self._get('deskshare/deskshare.webm')
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                print("No deskshare (screen share) found for this meeting. Skipping...")
+            else:
+                raise e
 
 def main(argv):
     if len(argv) != 3:
